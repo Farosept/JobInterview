@@ -1,0 +1,28 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li class="active">Вакансии</li>
+      <% if(session!=null) {%>
+        <% if(session.authorized) {%>
+          <li><a href="/personal">Заявки</a></li>
+        <%}%>
+      <%}%>
+       <li></li>
+      </ul>
+      <div class="button-login">
+      <ul class="nav navbar-nav">
+      <% if(session!=null) {%>
+      <% if(!session.authorized) {%>
+        <li ><a href="/auth">Войти</a></li>
+      <%}else{%>
+         <li ><a href="/auth"><%=session.username%></a></li>
+      <%}%>
+    <%}%>
+      </ul>
+    </div>
+  </div>
+  </div>
+</nav>

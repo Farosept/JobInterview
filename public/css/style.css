@@ -1,0 +1,235 @@
+.login{
+    margin: 80px auto;
+    width: 300px;
+    padding: 20px;
+    background-color: grey;
+}
+.errors{
+    color: lightcoral;
+    margin-top: 10px;
+}
+.auth-block{
+    position: relative;
+    width: 206px;
+    margin: auto;
+}
+.about{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 70%;   
+}
+.about-text{
+    margin: 5%;
+    padding: 3%;
+    border: 3px solid grey;
+}
+.help-auth-text{
+    margin: 10%;
+    padding: 3%;
+    color: white;
+    border: 3px solid white;
+}
+.logout-button{
+    position: absolute;
+    left: 10%;
+}
+.admin-buttons{
+    display: block;
+}
+.admin-buttons a{
+    margin:1%;
+}
+.admin-buttons button{
+    margin:1%;
+}
+
+.about-vacancy{
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0;
+    margin-left: 36px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 200px;
+    display: none;
+}
+.about-vacancy-text{
+    position: relative;
+    margin: 10px;
+    width: 70%;
+    float: left;
+    height: 180px;
+    overflow: auto;
+}
+.about-vacancy-buttons{
+    position: relative;
+    margin: 10px;
+}
+.about-vacancy-buttons a{
+    position: relative;
+    margin: 10px;
+    padding: 5px;
+    float: right;
+}
+.about-vacancy-buttons button{
+    position: relative;
+    margin: 10px;
+    padding: 5px;
+    float: right;
+}
+
+
+@media screen and (max-width: 770px) {
+    .about-vacancy-text-small{
+        position: relative;
+        width: 100%;
+        margin: 10px;
+        float: none;
+        height: 100px;
+        overflow: auto;
+    }
+    .about-vacancy-buttons-small a{
+        float: right;
+    }
+}
+@media screen and (max-width: 560px) {
+    .about-vacancy-buttons-small a{
+        float: right;
+    }
+}
+
+
+.button-login{
+    float: right;
+}
+.content{
+    position: relative;
+    top: 60px;
+    left: 0;
+    right: 0;
+    
+}
+.form-resume{
+    margin: 3%;
+}
+.interview{
+    position: relative;
+    top: 60px;
+    left: 0;
+    right: 0;
+}
+.interview h2{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+.container-interview{
+    position: relative;
+    margin: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
+    height: 600px;
+    border-radius: 6px;
+    border: #444 solid 1px;
+}
+@media screen and (max-width: 1400px) {
+    .container-interview-width{
+        margin: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+        height: 400px;
+    }
+}
+@media screen and (min-width: 1800px) {
+    .container-interview-width{
+        margin: 5%;
+        margin-left: 20%;
+        margin-right: 20%;
+        height: 600px;
+    }
+}
+.question-block{
+    position: absolute;
+    left:0;
+    right: 40%;
+    bottom: 0;
+    top: 0;
+    border-right: #444 solid 1px;
+    
+}
+.question-text-block{
+    word-wrap: break-word;
+    text-align: center;
+    font-size: 18pt;
+    margin: 5%;
+    position: absolute;
+    top: 5%;
+    bottom: 0;
+    overflow: auto;
+}
+.question-text-block span{
+
+    text-align: center;
+}
+.video-block{
+
+    width: 400px;
+    height: auto;
+
+}
+.video-element{
+    width: 100%;
+
+ border-radius: 10px;
+ max-height: 100%;
+}
+.timer-block{
+    position: absolute;
+    left:60%;
+    right: 0;
+    bottom: 0;
+    top: 50%;
+   
+}
+.pagination-container{
+    margin: auto;
+    width: 600px;
+}
+#question{
+    text-align: center;
+}
+.page-link:hover{
+ cursor: pointer;
+}
+.question-video{
+    color: black;
+    cursor: pointer;
+}
+#pre{
+    text-align: center;
+}
+#block-question{
+    display: none;
+}
+#question-number{
+    position: absolute;
+    color: white;
+    z-index: 2;
+    background-color: black;
+    margin: 2%;
+}
+#question-number-full{
+    position: absolute;
+    color: white;
+    z-index: 2;
+    display: block;
+    text-align: center;
+    margin: auto;
+    top: 50%;
+    right: 0;
+    left: 0;
+    font-size: 150;
+    display: none;
+}

@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <title>Заявки</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/public/css/bootstrap.css" rel="stylesheet">
+  <link href="/public/css/style.css" rel="stylesheet">
+  <script src="/public/js/jquery-latest.js"></script>
+  <script src="/public/js/jquery.cookie.js"></script>
+  <script src="/public/js/jquery.twbsPagination.min.js"></script>
+  <script src="/public/js/jquery.simplePagination.js"></script>
+  <script>
+    if(!$.cookie('userid')) window.location.href="/auth/login";
+  </script>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarvacancy">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>                                          
+</button>
+<a data-toggle="collapse" class="navbar-brand visible-xs" href="#">Заявки</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarvacancy">
+      <ul class="nav navbar-nav">
+      <li ><a href="/">Вакансии</a> </li>
+      <% if(user!=null) {%>
+          <li class="active"><a href="/requests">Заявки</a></li>
+      <%}%>
+       <li></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <% if(user==null) {%>
+        <li ><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> &nbspВойти</a></li>
+      <%}else{%>
+      <li ><a style="">Вы вошли как: <%=user.username%></a></li>
+      <li ><a href="/auth/logout">Выйти</a></li>
+   <%}%>
+      </ul>
+    
+  </div>
+  </div>
+</nav>
+
+<div class= "content-table" style="position: relative; top:60px; margin: 3%;">
+<form action="/requests/search" method="POST" style="margin-bottom: 1%;">
+  <input placeholder="email или Имя Фамилия" class="input-sm" type="text" name="search">
+  <input class="btn btn-primary" type="submit" name="Search" value="Искать">
+</form>
+  <table class="table">
+    <thead>
+    <tr>
+      <th> Имя </th>
+      <th>Фамилия </th>
+      <th>Email</th>
+      <th>Вакансия</th>
+      <th>Телефон </th>
+      <th><a id="dateupload" href="#"> Дата загрузки <i id="dateuploadSort" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></i> </a> </th>
+      <th><a id="status" href="#"> Статус <i id="statusSort" class=" " aria-hidden="true" style="font-size:8pt;">не просмотрено</i> </a></th>
+      <th><a id="dateviwed" href="#"> Дата просмотра <i id="dateviwedSort" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></i> </a></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% for(var i=0; i< materials.length; i++) {%>
+      <tr id="materials">
+        <td><%=materials[i].first_name%></td>
+        <td><%=materials[i].last_name%></td>
+        <td><%=materials[i].email%></td>
+        <td><%=materials[i].title%></td>
+    <!-- Телефон -->
+        <% if(materials[i].phone!=='') {%>
+          <td><%=materials[i].phone%></td>
+            <%}else{%>
+              <td>Не указан</td>
+            <%}%>
+            <td id="material-date_upload" ><%=materials[i].date_upload%></td>
+    <!-- Статус -->
+          <% if(materials[i].status==1) { %>
+              <td id="material-status">Не просмотрено</td>
+              <td id="material-date"></td>
+            <%}else{%>
+            <td id="material-status" >Просмотрено</td>
+            <td id="material-date" ><%=materials[i].date_viwed%></td>
+            <%}%>
+            <% if(materials[i].file_type==2) {%>
+          <td><a class="view" data-id="<%=materials[i].material_id%>" href="<%=materials[i].file_path%>">Скачать резюме</a></td>
+          <% }else{ %>
+          <td>
+          <a data-id="<%=materials[i].material_id%>" href="/requests/more/<%=materials[i].material_id%>" class="view" >Подробнее</a>
+          </td>
+          <%}%>
+      </tr>
+  <% } %>
+
+    </tbody>
+  </table>
+</div>
+<div class="pagination-container">
+<ul id="pagination-demo" class="pagination-sm"></ul>
+
+
+</div>
+<script src="/public/js/viwed.js"></script>
+<script src="/public/js/sort.js"></script>
+<script>
+var currentPage=1;
+function postMore(context){
+  $(context).parent().find('#more').submit();
+}
+var pagination = <%-JSON.stringify(pagination)%>;
+$('#pagination-demo').pagination({
+  pages: pagination.pages,
+  displayedPages: 3,
+  edges: 1,
+  currentPage: 1,
+  cssStyle: 'pagination',
+  prevText: '<span aria-hidden="true"><</span>',
+  nextText: '<span aria-hidden="true">></span>',
+  onPageClick: function (page, evt) {
+    currentPage = page;
+    $.get('/requests/requestsPage/'+page,sort,(data)=>{
+      $('tbody').html(data);
+    });
+  }
+});
+</script>
+</body>
+</html>

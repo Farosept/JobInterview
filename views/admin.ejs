@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Администрирование</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/public/js/jquery-latest.js"></script>
+  <script src="/public/js/jquery.form.js"></script> 
+  <script src="/public/js/bootstrap.js"></script>
+  <link href="/public/css/bootstrap.css" rel="stylesheet">
+  <link href="/public/css/style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li ><a href="/">Вакансии</a> </li>
+      <% if(user!=null) {%>
+          <li ><a href="/requests">Заявки</a></li>
+          <li class="active"><a href="/admin">Администрирование</a></li>
+      <%}%>
+       <li></li>
+      </ul>
+      <div class="button-login">
+      <ul class="nav navbar-nav">
+      <% if(user==null) {%>
+        <li ><a href="/auth/login">Войти</a></li>
+      <%}else{%>
+      <li ><a href="/"><%=user.username%></a></li>
+   <%}%>
+      </ul>
+    </div>
+  </div>
+  </div>
+</nav>
+<div style="position: relative; top:60px; margin: 3%;">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <button type="button" class="btn btn-default">Добавить вакансию</button>
+            </li>
+            <% for(var i=0; i<vacancy.length; i++){%>
+                <%-partial('../partials/modalVacancyEdit.ejs',{vacancy:vacancy[i]})%>
+                <li class="list-group-item" data-id="<%=vacancy[i].vacancy_id%>"><%=vacancy[i].title%><a href="#modalVacancyEdit<%=vacancy[i].vacancy_id%>" class="btn btn-default" data-toggle="modal">Изменить</a>
+                <button type="button" class="btn btn-default" onClick="delVacancy(<%=vacancy[i].vacancy_id%>)">Удалить</button><button class="qst btn btn-default" type="button">Вопросы</button></li>
+            <%}%>
+        </ul>
+    </div>
+    <div  class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <div id="buttonsqst">
+        
+    </div>
+    <form>
+        <div id="questions"></div>
+        <div>
+            <button type="button" class="btn btn-default" onClick="">Сохранить</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+</body>
+<script>
+var total = 0;
+var questions = null;
+$('.qst').click((e)=>{
+    $.get('/admin/questions/'+$(e.target).parent().attr('data-id'), function (data) {
+        questions = data;
+        console.log(data)
+        $('#buttonsqst').html('<button type="button" class="btn btn-default" onClick="addInput()">Добавить вопрос</button>');
+        $('#questions').html("");
+        questions.forEach(e=>{
+            total++;
+            $('#questions')
+                .append('<div id="q'+total+'" class="form-group"><label>Вопрос</label><div class="input-group"><input name="question'+total+'" '+
+                'id="input'+total+'" class="form-control" type="text" value="'+e.question_text+'">'+
+                '<label>Время</label><input name="time'+total+'"id="inputTime'+total+'"  type="time" value="'+e.question_time+'" step="1">'+
+                '<span class="input-group-btn">'+
+                '<button class="btn btn-default" type="button" onClick="delQuestion(q'+total+',this,'+e.question_id+')">Удалить</button></span></div></div>');
+        });
+    });
+});
+var total2 = 0;
+function addInput(){
+    total2++;
+    $(document).ready(function () {
+    $('#questions')
+        .append('<div class="form-group"><label>Вопрос</label><div class="input-group"><input name="question'+total2+'" '+
+        'id="input'+total+'" class="form-control" type="text">'+
+        '<label>Время</label><input name="time'+total2+'"id="inputTime'+total2+'"  type="time" step="2">'+
+        '<span class="input-group-btn">'+
+        '<button class="btn btn-default" type="button" onClick="delInput(input'+total2+',this)">Удалить</button></span></div></div>');
+    $('#total').attr('value',total2);
+});
+}
+
+
+function delQuestion(id,cont,qid){
+    console.log(qid)
+    $(document).ready(function () {
+        $.post('/admin/deletequestion/',{id:qid});
+    });
+    $(id).remove();
+    $(cont).remove();
+}
+function delVacancy(id){
+    console.log(id)
+    $(document).ready(function () {
+        $.post('/admin/deletevacancy/',{id:id});
+    });
+    $(id).remove();
+    $(cont).remove();
+}
+</script>
+</html>

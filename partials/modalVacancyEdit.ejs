@@ -1,0 +1,44 @@
+<html>
+  <div id="modalVacancyEdit<%=vacancy.vacancy_id%>" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="head" style="text-align:center;"> </h4>
+            </div>
+            <div class="modal-body">
+                <form id="formedit<%=vacancy.vacancy_id%>">
+                    <div class="form-resume">
+                        <div class="form-group">
+                            <label for="title">Название</label>
+                            <input type="text" id="title" class="form-control" name="title" value="<%=vacancy.title%>" required>
+                        </div>
+                        <div class="form-group">
+                            <label >Описание</label>
+                            <textarea name="description" style = "resize:none; width: 100%; height: 150px;"><%=vacancy.description%></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label >Количество отображаемых вопросов</label>
+                            <input type="number" id="quantity" class="form-control" name="quantity" required>
+                        </div>
+                        <div  class=" form-group">
+                            <label>Вопросы</label>
+                            
+                            <div class="questions">
+                                
+                            </div>
+                            <button type="button" class="btn btn-default" onClick="addInputEdit(<%=vacancy.vacancy_id%>, this)">Добавить вопрос</button>
+                        </div>
+                        <input name="vacancy_id" type="hidden" value="<%=vacancy.vacancy_id%>">
+                        <input id="total<%=vacancy.vacancy_id%>" name="total" value='' type="hidden">
+
+                    </div> 
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" id="sbm" style="float:left;" type="button" class="btn btn-success" onClick="post(<%=vacancy.vacancy_id%>)">Сохранить</button>
+                        <button class="btn btn-default"  type="button" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

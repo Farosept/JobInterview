@@ -1,0 +1,70 @@
+<html>
+<div id="modalFormInterview<%=vacancy.vacancy_id%>" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="text-align:center;">Чтобы пройти онлайн тестирование на вакансию <%=vacancy.title%> заполните форму</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/interview" id="forminterview<%=vacancy.vacancy_id%>">
+                    <div class="form-resume">
+                    <div class="err form-group">
+                   
+                    </div>
+                        <div class="form-group">
+                            <label for="first_name">*Имя:</label>
+                            <input autocomplete='given-name' type="text" id="first_name" class="form-control" name="first_name" placeholder = "Имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">*Фамилия:</label>
+                            <input autocomplete='family-name' type="text" id="last_name" class="form-control" name="last_name" placeholder="Фамилия" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">*Email:</label>
+                            <input autocomplete='email' type="email" id="email" class="form-control" name="email" placeholder="example@mail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Номер телефона:</label>
+                            <input autocomplete='tel-national' type="tel" id="phone" class="form-control" pattern="^((8|\+7)[\-]?)?(\(?\d{3}\)?[\-]?)?[\d\-]{7,10}$" name="phone" placeholder="89137775555">
+                        </div>
+                        <input type="hidden" name="vacancy_id" value="<%=vacancy.vacancy_id%>">
+                        <input type="hidden" name="vacancy_title" value="<%=vacancy.title%>">
+                        <input id="mId" type="hidden" name="material_id" value="">
+                        <input id="attempt_number" type="hidden" name="attempt_number" value="">
+
+                    </div>
+                    <div class="modal-footer">
+                        <a onClick="postInterview(<%=vacancy.vacancy_id%>)" style="float:left;"  class="btn btn-success">Начать тестирование</a>
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function postInterview(id) {
+    var request = new XMLHttpRequest();
+    request.open('POST', "/interview/check");
+    var formData = new FormData(document.getElementById("forminterview"+id));
+    request.onreadystatechange = function () {
+        if(request.readyState === XMLHttpRequest.DONE && request.status === 422){
+            var errors = JSON.parse(request.response);
+            $("#forminterview"+id).find('.err').html('');
+            errors.errors.forEach(err=>{
+                $("#forminterview"+id).find('.err').append('<div class="alert alert-danger"><strong>Ошибка!</strong> '+err.msg+'</div>');
+            });
+        }
+        if(request.readyState === XMLHttpRequest.DONE && request.status === 200){
+            $("#forminterview"+id).find('#mId').val(JSON.parse(request.response).material_id)
+            $("#forminterview"+id).find('#attempt_number').val(JSON.parse(request.response).attempt_number)
+            $("#forminterview"+id).submit();
+        }
+       
+    }
+
+    request.send(formData);
+}
+
+</script>
+</html>

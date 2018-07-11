@@ -1,0 +1,81 @@
+<html>
+<div id="modalSuccess" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Резюме отправлено
+            </div>
+            <div class="modal-body">
+                Спасибо, что отправили нам своё резюме. Мы свяжемся с вами в ближайшее время.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default"  type="button" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div id="modalFormResume<%=vacancy.vacancy_id%>" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="head" style="text-align:center;">Чтобы отправить резюме на вакансию <%=vacancy.title%> заполните форму</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form<%=vacancy.vacancy_id%>" action="/resume" method="POST"  enctype="multipart/form-data">
+                    <div class="form-resume">
+                        <div class="form-group">
+                            <label for="first_name">*Имя:</label>
+                            <input autocomplete='given-name' type="text" id="first_name" class="form-control" name="first_name" placeholder = "Имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">*Фамилия:</label>
+                            <input autocomplete='family-name' type="text" id="last_name" class="form-control" name="last_name" placeholder="Фамилия" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">*Email:</label>
+                            <input autocomplete='email' type="email" id="email" class="form-control" name="email" placeholder="example@mail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Номер телефона:</label>
+                            <input autocomplete='tel-national' type="tel" id="phone" class="form-control" pattern="^((8|\+7)[\-]?)?(\(?\d{3}\)?[\-]?)?[\d\-]{7,10}$" name="phone" placeholder="89137775555">
+                        </div>
+                        <div class="form-group">
+                            <label for="resume">*Файл резюме:</label>
+                            <input type="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" id="resume" class="form-control" name="resume" placeholder="Файл резюме" required>
+                        </div>
+                        <input type="hidden" name="vacancy_id" value="<%=vacancy.vacancy_id%>">
+
+                        <div class="errors">
+                            <ul id="errResume<%=vacancy.vacancy_id%>">
+                            </ul>
+                        </div>
+                    </div> 
+                    <div class="modal-footer">
+                        <button id="sbm" style="float:left;" type="submit" class="btn btn-success">Отправить резюме</button>
+                        <button class="btn btn-default"  type="button" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#form<%=vacancy.vacancy_id%>').ajaxForm({dataType: "json", success: function (data) {
+    if(data.errors){
+        var stringErrors = "";
+        for(var i=0; i<data.errors.length; i++){
+            stringErrors += "<li>"+data.errors[i].msg+"</li>";
+        }
+        $('#errResume<%=vacancy.vacancy_id%>').html(stringErrors);
+        return;
+    }
+    if(data.success){
+        $('#modalSuccess').modal('show');
+        $('#modalFormResume<%=vacancy.vacancy_id%>').modal('hide');
+        return;
+    }
+}
+});
+</script>
+</html>

@@ -1,0 +1,77 @@
+
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>Тестирование</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/public/js/jquery-latest.js"></script>
+    <script src="/public/js/bootstrap.js"></script>
+    <script src="/public/js/getBlobDuration.js"></script>
+    <script src="/public/js/moment.js"></script>
+    <link href="/public/css/bootstrap.css" rel="stylesheet">
+    <link href="/public/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+  <div class="navbar-header">
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li><a href="/">Вакансии</a> </li>
+       <li></li>
+      </ul>
+      <div class="button-login">
+      <ul class="nav navbar-nav">
+      </ul>
+    </div>
+  </div>
+  </div>
+</nav>
+<div class="container" >
+    <div class="row" >
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <div class="panel panel-primary" style="height:80%; max-height:80%;">
+                <div class="panel-heading" >
+                    <h3 class="panel-title"></h3>
+                </div>
+                <div class="panel-body">
+                <h3 id="pre" >
+                    Если вы настроили камеру и готовы начать тестирование нажмите кнопку "Начать".
+                </h3>
+                <div id="block-question">
+                    <h3 class="timer" >
+                    Оставшееся время:
+                        <span id="my_timer" style="color: #f00; font-size: 150%; font-weight: bold;"></span>
+                    </h3>
+                
+                    <h3>Вопрос:</h3>
+                    <h3 id="question"> </h3>
+                </div>
+              
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <video class="video-element"></video>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="margin-top: 15px;">
+            <button class="btn btn-success btn-lg btn-block" id="start-button" type="button" onClick="start();">Начать</button>
+            <button class="btn btn-success btn-lg btn-block" id="next-button" type="button" onClick="next();" style="display:none;">Следующий вопрос</button>
+            <button class="btn btn-info btn-lg btn-block" id="check-mic" type="button">Проверить звук</button>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="margin-top: 15px;">
+            
+        </div>
+    </div>
+</div>
+    </body>
+    <script>
+    var material = <%-JSON.stringify(candidate)%>;
+    var vacancy = <%-JSON.stringify(vacancy)%>;
+    var material_id = <%-JSON.stringify(material_id)%>
+    var attempt_number = <%-JSON.stringify(attempt_number)%>
+</script>
+    <script src="/public/js/recordVideo.js"></script>
+    <script src="/public/js/timerQuestions.js"></script>
+</html>

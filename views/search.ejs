@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Заявки</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/public/css/bootstrap.css" rel="stylesheet">
+  <link href="/public/css/style.css" rel="stylesheet">
+  <script src="/public/js/jquery-latest.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li ><a href="/">Вакансии</a> </li>
+      <% if(session!=null) {%>
+        <% if(session.authorized) {%>
+          <li class="active"><a href="/requests">Заявки</a></li>
+        <%}%>
+      <%}%>
+       <li></li>
+      </ul>
+      <div class="button-login">
+      <ul class="nav navbar-nav">
+      <% if(session!=null) {%>
+      <% if(!session.authorized) {%>
+        <li ><a href="/auth">Войти</a></li>
+      <%}else{%>
+      <li ><a style="">Вы вошли как: <%=user.username%></a></li>
+      <li ><a href="/auth/logout">Выйти</a></li>
+   <%}%>
+    <%}%>
+      </ul>
+    </div>
+  </div>
+  </div>
+</nav>
+
+<div class= "content-table" style="position: relative; top:60px; margin: 3%;">
+<h3>Результаты поиска </h3> <a href="/requests">Вернуться назад</a>
+  <table class="table">
+    <thead>
+    <tr>
+      <th> Имя </th>
+      <th>Фамилия </th>
+      <th>Email</th>
+      <th>Вакансия</th>
+      <th>Телефон </th>
+      <th> Дата загрузки </th>
+      <th> Статус </th>
+      <th>Дата просмотра</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% for(var i=0; i< materials.length; i++) {%>
+      <tr id="materials">
+        <td><%=materials[i].first_name%></td>
+        <td><%=materials[i].last_name%></td>
+        <td><%=materials[i].email%></td>
+        <td><%=materials[i].title%></td>
+    <!-- Телефон -->
+        <% if(materials[i].phone!=='') {%>
+          <td><%=materials[i].phone%></td>
+            <%}else{%>
+              <td>Не указан</td>
+            <%}%>
+            <td id="material-date_upload" ><%=materials[i].date_upload%></td>
+    <!-- Статус -->
+          <% if(materials[i].status==1) { %>
+              <td id="material-status">Не просмотрено</td>
+              <td id="material-date"></td>
+            <%}else{%>
+            <td id="material-status" >Просмотрено</td>
+            <td id="material-date" ><%=materials[i].date_viwed%></td>
+            <%}%>
+            <% if(materials[i].file_type==2) {%>
+            <td><a class="view" data-id="<%=materials[i].material_id%>" href="<%=materials[i].file_path%>">Скачать резюме</a></td>
+            <% }else{ %>
+            <td>
+            <a data-id="<%=materials[i].material_id%>" href="/requests/more/<%=materials[i].material_id%>" class="view" >Подробнее</a>
+          <%}%>
+      </tr>
+  <% } %>
+
+    </tbody>
+  </table>
+</div>
+<script src="/public/js/viwed.js"></script>
+</body>
+</html>

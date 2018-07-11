@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Вакансии</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/public/js/jquery-latest.js"></script>
+  <script src="/public/js/jquery.form.min.js"></script> 
+  <script src="/public/js/bootstrap.js"></script>
+  <link href="/public/css/bootstrap.css" rel="stylesheet">
+  <link href="/public/css/style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarvacancy">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>                                          
+</button>
+<a data-toggle="collapse" class="navbar-brand visible-xs" href="#">Вакансии</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarvacancy">
+      <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Вакансии</a> </li>
+      <% if(user!=null) {%>
+          <li ><a href="/requests">Заявки</a></li>
+      <%}%>
+       <li></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <% if(user==null) {%>
+        <li ><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> &nbspВойти</a></li>
+      <%}else{%>
+      <li ><a style="">Вы вошли как: <%=user.username%></a></li>
+      <li ><a href="/auth/logout">Выйти</a></li>
+   <%}%>
+      </ul>
+    
+  </div>
+  </div>
+</nav>
+
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="position: relative; top:60px; margin: 3%;">
+<%-partial('../partials/modalVacancy.ejs')%>
+<%if(vacancies){%>
+<% for(var i=0; i< vacancies.length; i++) {%>
+<%-partial('../partials/modalInterview.ejs',{vacancy:vacancies[i]})%>
+<%-partial('../partials/modalResume.ejs',{vacancy:vacancies[i]})%>
+<% if(user!=null) {%>
+  
+  <%-partial('../partials/modalVacancyEdit.ejs',{vacancy:vacancies[i]})%>
+  <script>
+  vacancy = <%-JSON.stringify(vacancies)%>
+</script>
+
+<%}%>
+  <div class="panel panel-default">
+  <a  role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=vacancies[i].vacancy_id%>" aria-expanded="true" aria-controls="collapse">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <%= vacancies[i].title %>
+      </h4>
+    </div>
+    </a>
+    <div id="collapse<%=vacancies[i].vacancy_id%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+      <div class="about-vacancy-text about-vacancy-text-small">
+      <h4><%= vacancies[i].description %></h4>
+    </div>
+    <div class="about-vacancy-buttons about-vacancy-buttons-small">
+        <% if(vacancies[i].quantity_questions!=null) {%>
+          <a href="#modalFormInterview<%=vacancies[i].vacancy_id%>" class="btn btn-default" data-toggle="modal">Пройти тестирование</a>
+        <%}%>
+        <a href="#modalFormResume<%=vacancies[i].vacancy_id%>" class="btn btn-default" data-toggle="modal">Отправить резюме</a>
+    </div>
+    <div class="admin-buttons">
+<% if(user!=null) {%>
+<a href="#modalVacancyEdit<%=vacancies[i].vacancy_id%>" class="btn btn-default" data-toggle="modal" >Изменить</a>
+<form method="POST" action="/admin/deletevacancy">
+  <button type="submit" class="btn btn-danger">Удалить</button>
+  <input type="hidden" name="id" value="<%=vacancies[i].vacancy_id%>">
+</form>
+<%}%>
+</div>
+    </div>
+  </div>
+</div>
+  <%}%>
+  <%}%>
+  <% if(user!=null) {%>
+  <a href="#modalVacancy" style="margin-top:1%;" class="btn btn-default" data-toggle="modal">Добавить</a>
+  <script src="/public/js/admin.js"></script>
+  <%}%>
+</div>
+</body>
+
+</html>

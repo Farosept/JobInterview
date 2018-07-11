@@ -1,0 +1,31 @@
+<% for(var i=0; i< materials.length; i++) {%>
+<tr id="materials">
+  <td><%=materials[i].first_name%></td>
+  <td><%=materials[i].last_name%></td>
+  <td><%=materials[i].email%></td>
+  <td><%=materials[i].title%></td>
+<!-- Телефон -->
+  <% if(materials[i].phone!=='') {%>
+    <td><%=materials[i].phone%></td>
+      <%}else{%>
+        <td>Не указан</td>
+      <%}%>
+      <td id="material-date_upload" ><%=materials[i].date_upload%></td>
+<!-- Статус -->
+    <% if(materials[i].status==1) { %>
+        <td id="material-status">Не просмотрено</td>
+        <td id="material-date"></td>
+      <%}else{%>
+      <td id="material-status" >Просмотрено</td>
+      <td id="material-date" ><%=materials[i].date_viwed%></td>
+      <%}%>
+      <% if(materials[i].file_type==2) {%>
+    <td><a class="view" data-id="<%=materials[i].material_id%>" href="<%=materials[i].file_path%>">Скачать резюме</a></td>
+    <% }else{ %>
+    <td>
+    <a data-id="<%=materials[i].material_id%>" href="/requests/more/<%=materials[i].material_id%>" class="view" >Подробнее</a>
+    </td>
+    <%}%>
+</tr>
+<% } %>
+<script src="/public/js/viwed.js"></script>

@@ -1,0 +1,60 @@
+{
+  "name": "interview",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "connect-flash": "^0.1.1",
+    "connect-multiparty": "^2.1.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-mysql-session": "^1.2.3",
+    "express-partials": "^0.3.0",
+    "express-session": "^1.15.6",
+    "express-validator": "^4.3.0",
+    "express-winston": "^2.5.0",
+    "ffmpeg-node": "0.0.2",
+    "fluent-ffmpeg": "^2.1.2",
+    "jquery-form-validator": "^2.3.77",
+    "memory": "0.0.3",
+    "moment": "^2.21.0",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "nconf": "^0.10.0",
+    "ngrok": "^3.0.1",
+    "npm": "^5.7.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "referrer": "^1.0.2",
+    "serve-favicon": "^2.4.5",
+    "serve-static": "^1.13.2",
+    "session-memory-store": "^0.2.2",
+    "superagent": "^3.8.2",
+    "supertest": "^3.0.0",
+    "ts-ebml": "^2.0.2",
+    "util": "^0.10.3",
+    "vid-streamer": "^1.0.0",
+    "videojs-event-tracking": "0.0.9",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.4",
+    "chai": "^4.1.2",
+    "nodemon": "^1.17.1",
+    "video.js": "^6.7.3"
+  },
+  "scripts": {
+    "test": "mocha  ./tests/*.test.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.eurostudio.net/farosept/JobInterview.git"
+  },
+  "author": "Artem Horev",
+  "license": "ISC"
+}

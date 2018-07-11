@@ -1,0 +1,10 @@
+{
+	"port": 9002,
+    "db": {
+        "host"     : "127.0.0.1",
+        "user"     : "root",
+        "password" : "",
+        "database" : "interview"
+    },
+    "attempts":3
+}

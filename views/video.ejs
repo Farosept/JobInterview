@@ -1,0 +1,129 @@
+<head>
+<title>Попытка <%=mqt[0].attempt_number%></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/public/dist/video-js.css" rel="stylesheet">
+  <link href="/public/css/style.css" rel="stylesheet">
+    
+  <script src="/public/js/bootstrap.js"></script>
+  <script src="/public/js/moment.js"></script>
+  <link href="/public/css/bootstrap.css" rel="stylesheet">
+
+  <!-- If you'd like to support IE8 -->
+  <script src="/public/js/videojs-ie8.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarvacancy">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>                                          
+</button>
+<a data-toggle="collapse" class="navbar-brand visible-xs" href="#">Заявки</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarvacancy">
+      <ul class="nav navbar-nav">
+      <li ><a href="/">Вакансии</a> </li>
+      <% if(user!=null) {%>
+          <li class="active"><a href="/requests">Заявки</a></li>
+      <%}%>
+       <li></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <% if(user==null) {%>
+        <li ><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> &nbspВойти</a></li>
+      <%}else{%>
+      <li ><a style="">Вы вошли как: <%=user.username%></a></li>
+      <li ><a href="/auth/logout">Выйти</a></li>
+   <%}%>
+      </ul>
+    
+  </div>
+  </div>
+</nav>
+
+
+<div class="container" style="margin-top:60px">
+  <div class="row" >
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <h4>Вопросы:</h4>
+       <% for(var i = 0; i<mqt.length; i++){%>
+        <h4 data-time-start="<%=mqt[i].start_time%>" data-time-end="<%=mqt[i].end_time%>" class="question-video" id="quest<%=mqt[i].question_id%>"><%=i+1%>) <%=mqt[i].question_text%></h4>
+       <%}%>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+    <h1 id = "question-number"></h1>
+    <h1 id = "question-number-full"></h1>
+      <video id="my-video" class="video-js video-element vjs-big-play-centered" controls   data-setup="{my-video}">
+        <source src="<%=src%>" type='video/webm'>
+      </video>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="/public/js/jquery-latest.js"></script>
+
+  <script src="/public/dist/video.js"></script>
+</body>
+<script>
+var mqt = <%-JSON.stringify(mqt)%>;
+var player = videojs('my-video', { "controls": true , "preload": "auto" });
+init();
+  $('.question-video').click((e)=>{
+    console.log($(e.target).data('time-start'));
+    var start = $(e.target).data('time-start').split(':');
+    player.currentTime(parseInt(start[2]));
+  })
+function init(){
+
+  var video = document.querySelector("video");
+  video.onloadeddata = ()=>{
+  video.currentTime = 7*24*60*1000;
+
+  video.onseeked = ()=>{
+    video.onseeked = undefined;
+    video.currentTime = 0;
+  };
+  };
+  
+}
+var quid = 0;
+player.on("click",(e)=>{
+  if(!player.paused()){
+  $('#question-number-full').fadeIn(500)
+  setTimeout(()=>{$('#question-number-full').fadeOut(500)},1000)}
+})
+player.on("timeupdate",()=>{
+  var currentTime = player.currentTime();
+    mqt.forEach((e,i)=>{
+      let arr = e.start_time.split(':');
+      let arr2 = e.end_time.split(':');
+      if(parseInt(arr[2])<=parseInt(currentTime) && parseInt(arr2[2])>parseInt(currentTime)){
+        console.log(quid)
+        
+          
+          $('#quest'+e.question_id).css({'color':'red'});
+          $('#question-number').html((i+1))
+          if(e.question_id !=quid){
+            $('#question-number-full').html((i+1))
+          if(quid!==0){
+            $('#question-number-full').fadeIn(500)
+            setTimeout(()=>{$('#question-number-full').fadeOut(500)},1000)
+            player.pause();
+            setTimeout(()=>{player.play(); },1000)
+           
+          }
+          quid = e.question_id;
+        }
+      }else{
+        $('#quest'+e.question_id).css({'color':'black'});
+      }
+    });
+});
+</script>
